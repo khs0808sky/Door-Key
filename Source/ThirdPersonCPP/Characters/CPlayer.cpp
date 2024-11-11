@@ -56,10 +56,10 @@ ACPlayer::ACPlayer()
 	GetCharacterMovement()->bOrientRotationToMovement = true;
 	bUseControllerRotationYaw = false;
 
+	//CHelpers::GetClass(&KeyWidgetClass, "/Game/UI/WB_Color_Key");
 
 	bReadyToOpenChest = false;
 
-	//CHelpers::GetClass(&KeyWidgetClass, "/Game/UI/WB_Color_Key");
 }
 
 void ACPlayer::BeginPlay()
@@ -255,7 +255,7 @@ void ACPlayer::OnInteract()
 			if (!Chest->IsOpened())
 			{
 				Chest->Open();
-				Color = Chest->GetEmissive();
+				Color = Chest->GetSymbolColor();
 				if (Color == FVector(50, 0, 0))
 				{
 					bRedKey = true;

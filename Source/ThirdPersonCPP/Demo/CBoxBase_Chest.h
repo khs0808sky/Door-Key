@@ -17,12 +17,13 @@ public:
 	ACBoxBase_Chest();
 
 	FORCEINLINE bool IsOpened() { return bOpened; }
-	FORCEINLINE FLinearColor GetEmissive() { return Emissive; }
+	FORCEINLINE FLinearColor GetSymbolColor() { return SymbolColor; }
 
 	void Open();
 
 
 protected:
+	virtual void OnConstruction(const FTransform& Transform) override;
 	virtual void BeginPlay() override;
 
 private:
@@ -57,11 +58,12 @@ protected:
 	UPROPERTY(BlueprintReadOnly, VisibleDefaultsOnly, Category = "Components")
 		UStaticMeshComponent* Bottom;
 
-	UPROPERTY(EditAnywhere, Category = "Color")
-		FLinearColor Emissive;
+private:
+	UPROPERTY(EditInstanceOnly, Category = "SymbolColor")
+		FLinearColor SymbolColor;
 
 private:
-	UMaterialInstanceDynamic* EmissiveColor;
+	UMaterialInstanceDynamic* DynamicMaterial;
 
 	bool bOpened;
 

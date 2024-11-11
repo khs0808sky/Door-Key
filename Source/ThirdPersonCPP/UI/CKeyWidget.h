@@ -9,7 +9,8 @@ class THIRDPERSONCPP_API UCKeyWidget : public UUserWidget
 {
 	GENERATED_BODY()
 
-public:
-	UFUNCTION(BlueprintImplementableEvent)
-		void OnColor();
+
+//public:
+//	UFUNCTION(BlueprintImplementableEvent)
+//		void OnColor();
 };
