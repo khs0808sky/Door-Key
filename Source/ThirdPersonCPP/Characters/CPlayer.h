@@ -15,6 +15,7 @@ class UCMontagesComponent;
 class UCActionComponent;
 class UMaterialInstanceDynamic;
 class ACBoxBase_Chest;
+class ACBoxBase_Door;
 class UCKeyWidget;
 
 UCLASS()
@@ -28,12 +29,16 @@ public:
 	void SetBodyColor(FLinearColor InColor)	override;
 
 	FORCEINLINE bool IsReadyToOpenChest() { return bReadyToOpenChest; }
+	FORCEINLINE bool IsReadyToOpenDoor() { return bReadyToOpenDoor; }
 	FORCEINLINE bool IsRedKey() { return bRedKey; }
 	FORCEINLINE bool IsGreenKey() { return bGreenKey; }
 	FORCEINLINE bool IsBlueKey() { return bBlueKey; }
 
 	void SetDoOpenChest();
 	void SetDoNotOpenChest();
+
+	void SetDoOpenDoor();
+	void SetDoNotOpenDoor();
 
 protected:
 	virtual void BeginPlay() override;
@@ -114,8 +119,10 @@ private:
 	UMaterialInstanceDynamic* LogoMaterial;
 
 	bool bReadyToOpenChest;
+	bool bReadyToOpenDoor;
 
 	ACBoxBase_Chest* Chest;
+	ACBoxBase_Door* Door;
 	UCKeyWidget* KeyWidget;
 
 protected:

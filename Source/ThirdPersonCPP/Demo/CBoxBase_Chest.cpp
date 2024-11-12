@@ -71,14 +71,6 @@ void ACBoxBase_Chest::BeginPlay()
 
 	Box->OnComponentBeginOverlap.AddDynamic(this, &ACBoxBase_Chest::BeginOverlap);
 	Box->OnComponentEndOverlap.AddDynamic(this, &ACBoxBase_Chest::EndOverlap);
-
-	//Set Dynamic Material
-	/*EmissiveColor = UMaterialInstanceDynamic::Create(Top->GetMaterial(0), nullptr);
-
-	EmissiveColor->SetVectorParameterValue("SymbolColor", Emissive);
-
-	Top->SetMaterial(0, EmissiveColor);
-	Bottom->SetMaterial(0, EmissiveColor);*/
 }
 
 void ACBoxBase_Chest::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
@@ -89,18 +81,18 @@ void ACBoxBase_Chest::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AAc
 	{
 		Player->SetDoOpenChest();
 		DrawDebugString(GetWorld(), FVector(50, 0, 0), "Press 'F' to open", this, FColor::White, 3.f, true, 1.f);
-		CLog::Print(Player->IsReadyToOpenChest() ? "Ready!" : "Not Ready!", -1);
+		CLog::Print("Ready to Open Chest!", -1);
 	}
 }
 
 void ACBoxBase_Chest::EndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
 	ACPlayer* Player = Cast<ACPlayer>(OtherActor);
+	Player->SetDoNotOpenChest();
 
 	if (!bOpened)
 	{
-		Player->SetDoNotOpenChest();
-		CLog::Print(Player->IsReadyToOpenChest() ? "Ready!" : "Not Ready!", -1);
+		CLog::Print("Not Ready to Open Chest!", -1);
 	}
 
 }

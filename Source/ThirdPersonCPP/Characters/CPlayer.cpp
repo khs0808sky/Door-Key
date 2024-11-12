@@ -10,6 +10,7 @@
 #include "Components/CActionComponent.h"
 #include "Actions/CActionData.h"
 #include "Demo/CBoxBase_Chest.h"
+#include "Demo/CBoxBase_Door.h"
 #include "UI/CKeyWidget.h"
 
 ACPlayer::ACPlayer()
@@ -102,6 +103,16 @@ void ACPlayer::SetDoOpenChest()
 void ACPlayer::SetDoNotOpenChest()
 {
 	bReadyToOpenChest = false;
+}
+
+void ACPlayer::SetDoOpenDoor()
+{
+	bReadyToOpenDoor = true;
+}
+
+void ACPlayer::SetDoNotOpenDoor()
+{
+	bReadyToOpenDoor = false;
 }
 
 void ACPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -247,6 +258,7 @@ void ACPlayer::OnInteract()
 	String.Append(IsBlueKey() ? "Blue" : "null");
 
 	CLog::Print(String);
+	//CLog::Print(bReadyToOpenChest, -1);
 
 	if (bReadyToOpenChest)
 	{
@@ -273,7 +285,40 @@ void ACPlayer::OnInteract()
 				}
 			}
 		}
+	}
 
+	if (bReadyToOpenDoor)
+	{
+		if (Door)
+		{
+			if (!Door->IsOpened())
+			{
+				if (Door->GetBaseColor() == FVector(1, 0, 0))
+				{
+					if (bRedKey)
+					{
+						Door->Open();
+						return;
+					}
+				}
+				else if (Door->GetBaseColor() == FVector(0, 1, 0))
+				{
+					if (bGreenKey)
+					{
+						Door->Open();
+						return;
+					}
+				}
+				else if (Door->GetBaseColor() == FVector(0, 0, 1))
+				{
+					if (bBlueKey)
+					{
+						Door->Open();
+						return;
+					}
+				}
+			}
+		}
 	}
 }
 
@@ -281,11 +326,13 @@ void ACPlayer::OnInteract()
 void ACPlayer::BeginOverlap(AActor* OverlappedActor, AActor* OtherActor)
 {
 	Chest = Cast<ACBoxBase_Chest>(OtherActor);
+	Door = Cast<ACBoxBase_Door>(OtherActor);
 }
 
 void ACPlayer::EndOverlap(AActor* OverlappedActor, AActor* OtherActor)
 {
 	Chest = nullptr;
+	Door = nullptr;
 }
 
 void ACPlayer::Begin_Roll()
